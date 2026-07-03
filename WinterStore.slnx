@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="WinterStore.API/WinterStore.API.csproj" />
+  <Project Path="WinterStore.Application/WinterStore.Application.csproj" />
+  <Project Path="WinterStore.Domain/WinterStore.Domain.csproj" />
+  <Project Path="WinterStore.Infrastructure/WinterStore.Infrastructure.csproj" />
+</Solution>
