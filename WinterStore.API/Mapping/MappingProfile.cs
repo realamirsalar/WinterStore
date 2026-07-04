@@ -1,0 +1,17 @@
+﻿using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using WinterStore.Application.Featuers.Product.Queries;
+using WinterStore.Domain.Entities;
+
+namespace WinterStore.API.Mapping
+{
+    internal class MappingProfile : Profile
+    {
+        public MappingProfile()
+        {
+            CreateMap<Product, ProductResponse>();
+        }
+    }
+}
