@@ -18,4 +18,9 @@
     <ProjectReference Include="..\WinterStore.Domain\WinterStore.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Featuers\Product\Commands\" />
+    <Folder Include="Featuers\Product\Queries\" />
+  </ItemGroup>
+
 </Project>
