@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using WinterStore.Application.Common.Interfaces;
 using WinterStore.Infrastructure.Data;
+using WinterStore.Infrastructure.Persistence;
 using WinterStore.Infrastructure.Persistence.Repositories;
 
 namespace WinterStore.Infrastructure
@@ -20,6 +21,7 @@ namespace WinterStore.Infrastructure
             });
 
             service.AddScoped<IProductRepository, ProductRepository>();
+            service.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return service;
         }
