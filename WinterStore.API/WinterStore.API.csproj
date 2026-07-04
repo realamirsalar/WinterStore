@@ -13,5 +13,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WinterStore.Infrastructure\WinterStore.Infrastructure.csproj" />
+  </ItemGroup>
+
 
 </Project>
