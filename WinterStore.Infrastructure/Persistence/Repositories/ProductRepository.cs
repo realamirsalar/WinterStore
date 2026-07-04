@@ -17,31 +17,37 @@ namespace WinterStore.Infrastructure.Persistence.Repositories
             _db = db;
         }
 
-        public async Task CreateProductAsync(Product product)
+
+        public async Task<List<Product>> GetAllProductsAsync(CancellationToken cancellationToken = default)
         {
-            await _db.Products.AddAsync(product);
+            return await _db.Products
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task DeleteProduct(int id)
+        public async Task<Product?> GetProductByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            var product = await GetProductByIdAsync(id);
-            _db.Products.Remove(product);
+            return await _db.Products
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
         }
 
-        public async Task<List<Product>> GetAllProductsAsync()
+        public async Task CreateProductAsync(Product product, CancellationToken cancellationToken = default)
         {
-            return await _db.Products.AsNoTracking().ToListAsync();
-        }
-
-        public async Task<Product> GetProductByIdAsync(int id)
-        {
-            return await _db.Products.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
-
+            await _db.Products.AddAsync(product, cancellationToken);
         }
 
         public void UpdateProduct(Product product)
         {
             _db.Products.Update(product);
         }
+
+        public async Task DeleteProduct(int id, CancellationToken cancellationToken = default)
+        {
+            await _db.Products
+                .Where(p => p.Id == id)
+                .ExecuteDeleteAsync(cancellationToken);
+        }
+
     }
 }
