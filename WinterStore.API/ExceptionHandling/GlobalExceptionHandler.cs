@@ -21,8 +21,14 @@ namespace WinterStore.API.ExceptionHandling
 
             var statusCode = exception switch
             {
-                UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
+                OperationCanceledException or TaskCanceledException => 499,
+
                 NotImplementedException => StatusCodes.Status501NotImplemented,
+
+                TimeoutException => StatusCodes.Status504GatewayTimeout,
+
+                UnauthorizedAccessException => StatusCodes.Status403Forbidden,
+
                 _ => StatusCodes.Status500InternalServerError
             };
 
@@ -44,18 +50,21 @@ namespace WinterStore.API.ExceptionHandling
             httpContext.Response.ContentType = "application/problem+json";
 
             await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
-            
+
             return true;
         }
         private static string GetTitle(int statusCode)
         {
             return statusCode switch
             {
-                StatusCodes.Status401Unauthorized => "Unauthorized Access",
+                499 => "Client Closed Request",
+                StatusCodes.Status403Forbidden => "Forbidden Access",
                 StatusCodes.Status501NotImplemented => "Not Implemented",
+                StatusCodes.Status504GatewayTimeout => "Gateway Timeout",
                 StatusCodes.Status500InternalServerError => "Server Error",
                 _ => "An error occurred"
             };
+
         }
     }
 }

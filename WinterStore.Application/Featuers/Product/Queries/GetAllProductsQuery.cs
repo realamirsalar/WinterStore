@@ -4,6 +4,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WinterStore.Application.Common.Errors;
 using WinterStore.Application.Common.Interfaces;
 
 namespace WinterStore.Application.Featuers.Product.Queries
@@ -24,6 +25,10 @@ namespace WinterStore.Application.Featuers.Product.Queries
         public async Task<Result<IEnumerable<ProductResponse>>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
             var products = await _productRepository.GetAllProductsAsync(cancellationToken);
+            if (products == null)
+            {
+                return Result.Fail(new NotFoundError("هیچ محصولی پیدا نشد"));
+            }
 
             var response = _mapper.Map<IEnumerable<ProductResponse>>(products);
 

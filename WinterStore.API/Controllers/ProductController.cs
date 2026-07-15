@@ -4,9 +4,8 @@ using WinterStore.Application.Featuers.Product.Queries;
 
 namespace WinterStore.API.Controllers
 {
-    [ApiController]
     [Route("api/product")]
-    public class ProductController : ControllerBase
+    public class ProductController : ApiControllerBase
     {
         private readonly ISender _mediator;
 
@@ -25,15 +24,17 @@ namespace WinterStore.API.Controllers
 
             var result = await _mediator.Send(query, cancellationToken);
 
-            if (result.IsFailed)
-            {
-                return NotFound(new
-                {
-                    Message = result.Errors.FirstOrDefault()?.Message ?? "محصول یافت نشد."
-                });
-            }
+            //if (result.IsFailed)
+            //{
+            //    return NotFound(new
+            //    {
+            //        Message = result.Errors.FirstOrDefault()?.Message ?? "محصول یافت نشد."
+            //    });
+            //}
 
-            return Ok(result.Value);
+            //return Ok(result.Value);
+            return HandleResult(result);
+
         }
 
         [HttpGet]
@@ -45,15 +46,16 @@ namespace WinterStore.API.Controllers
 
             var result = await _mediator.Send(query, cancellationToken);
 
-            if (result.IsFailed)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    Message = "خطایی در دریافت لیست محصولات رخ داده است."
-                });
-            }
+            //if (result.IsFailed)
+            //{
+            //    return StatusCode(StatusCodes.Status500InternalServerError, new
+            //    {
+            //        Message = "خطایی در دریافت لیست محصولات رخ داده است."
+            //    });
+            //}
 
-            return Ok(result.Value);
+            //return Ok(result.Value);
+            return HandleResult(result);
         }
     }
 }

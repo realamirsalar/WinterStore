@@ -4,6 +4,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WinterStore.Application.Common.Errors;
 using WinterStore.Application.Common.Interfaces;
 
 namespace WinterStore.Application.Featuers.Product.Queries
@@ -27,7 +28,7 @@ namespace WinterStore.Application.Featuers.Product.Queries
 
             if (product is null)
             {
-                return Result.Fail($"Product with Id {request.Id} was not found.");
+                return Result.Fail(new NotFoundError($"Product with Id {request.Id} was not found."));
             }
 
             var response = _mapper.Map<ProductResponse>(product);
