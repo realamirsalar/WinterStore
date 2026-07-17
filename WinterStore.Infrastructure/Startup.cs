@@ -21,6 +21,7 @@ namespace WinterStore.Infrastructure
             });
 
             service.AddScoped<IProductRepository, ProductRepository>();
+            service.AddScoped<IBasketRepository, BasketRepository>();
             service.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return service;
