@@ -49,13 +49,17 @@ namespace WinterStore.API.Controllers
         }
         private ProblemDetails CreateProblemDetails(int statusCode, string title, string detail)
         {
-            return new ProblemDetails
+            var problem = new ProblemDetails
             {
                 Status = statusCode,
                 Title = title,
                 Detail = detail,
                 Instance = HttpContext.Request.Path
             };
+
+            problem.Extensions["traceId"] = HttpContext.TraceIdentifier;
+
+            return problem;
         }
     }
 }
