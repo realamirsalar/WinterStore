@@ -10,7 +10,7 @@ namespace WinterStore.Application.Featuers.Basket.Queries
 {
     public class GetBasketByIdQuery : IRequest<Result<BasketReaponse>>
     {
-        public string BasketId { get; set; }
+        public string BasketId { get; set; } 
 
         public GetBasketByIdQuery(string basketId)
         {
