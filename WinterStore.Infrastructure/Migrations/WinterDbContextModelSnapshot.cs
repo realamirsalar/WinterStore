@@ -35,7 +35,7 @@ namespace WinterStore.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Basket");
+                    b.ToTable("Baskets");
                 });
 
             modelBuilder.Entity("WinterStore.Domain.Entities.BasketItem", b =>
@@ -62,7 +62,7 @@ namespace WinterStore.Infrastructure.Migrations
                     b.HasIndex("ProductId")
                         .IsUnique();
 
-                    b.ToTable("BasketItem");
+                    b.ToTable("BasketItems");
                 });
 
             modelBuilder.Entity("WinterStore.Domain.Entities.Product", b =>
