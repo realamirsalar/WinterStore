@@ -6,8 +6,39 @@ namespace WinterStore.Domain.Entities
 {
     public class Basket
     {
-        public int Id { get; set; }
-        public required string BasketId { get; set; }
-        public List<BasketItem> Items { get; set; } = [];
+        private readonly List<BasketItem> _items = new();
+
+        private Basket() { }
+
+        public Basket(string basketId)
+        {
+            if (string.IsNullOrWhiteSpace(basketId))
+                throw new ArgumentNullException(nameof(basketId), "BasketId cannot be empty.");
+
+            BasketId = basketId;
+        }
+
+        public int Id { get; private set; }
+        public string BasketId { get; private set; }
+
+        public IReadOnlyCollection<BasketItem> Items => _items.AsReadOnly();
+
+        public void AddItem(int productId, int quantity)
+        {
+            if (quantity <= 0)
+                throw new ArgumentException("Quantity must be greater than zero.", nameof(quantity));
+
+            var existingItem = _items.FirstOrDefault(i => i.ProductId == productId);
+
+            if (existingItem != null)
+            {
+                existingItem.IncreaseQuantity(quantity);
+            }
+            else
+            {
+                _items.Add(new BasketItem(productId, quantity));
+            }
+        }
     }
+
 }
