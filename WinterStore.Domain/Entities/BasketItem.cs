@@ -26,5 +26,9 @@ namespace WinterStore.Domain.Entities
         {
             Quantity += quantity;
         }
+        internal void DncreaseQuantity(int quantity)
+        {
+            Quantity -= quantity;
+        }
     }
 }

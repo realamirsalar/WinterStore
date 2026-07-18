@@ -39,6 +39,23 @@ namespace WinterStore.Domain.Entities
                 _items.Add(new BasketItem(productId, quantity));
             }
         }
+        public void RemoveItem(int productId, int quantity)
+        {
+            if (quantity <= 0)
+                throw new ArgumentException("Quantity must be greater than zero.", nameof(quantity));
+
+            var existingItem = _items.FirstOrDefault(i => i.ProductId == productId);
+
+            if (existingItem != null)
+            {
+                existingItem.DncreaseQuantity(quantity);
+                if (existingItem.Quantity <= 0)
+                {
+                    _items.Remove(existingItem);
+                }
+            }
+
+        }
     }
 
 }
