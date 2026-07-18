@@ -8,8 +8,7 @@ namespace WinterStore.Application.Common.Interfaces
     public interface IBasketRepository
     {
         Task<Basket?> GetBasketWithItemsAndProduct(string basketId, CancellationToken cancellationToken = default);
-        Task AddItemToBasket(int basketId, int productId, int quntity, CancellationToken cancellationToken = default);
-        Task<Basket> CreateBasket(CancellationToken cancellationToken = default);
+        Task<Basket> CreateBasketAsync(Basket basket,CancellationToken cancellationToken = default);
     }
 
 }
