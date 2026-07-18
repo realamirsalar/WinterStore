@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Featuers\Basket\Commands\" />
     <Folder Include="Featuers\Product\Commands\" />
   </ItemGroup>
 
