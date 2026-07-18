@@ -40,5 +40,12 @@ namespace WinterStore.API.Controllers
 
             return HandleResult(result);
         }
+        [HttpDelete]
+        public async Task<IActionResult> RemoveItem([FromQuery] int productId, [FromQuery] int quantity)
+        {
+            var result = await _madiator.Send(new RemoveItemCommand(Request.Cookies[SD.BasketIdInCookie]!, productId, quantity));
+
+            return HandleResult(result);
+        }
     }
 }

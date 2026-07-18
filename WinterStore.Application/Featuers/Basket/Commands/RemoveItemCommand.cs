@@ -8,7 +8,7 @@ using WinterStore.Application.Common.Interfaces;
 
 namespace WinterStore.Application.Featuers.Basket.Commands
 {
-    public record RemoveItemCommand(string BasketId, int productId, int Quantity) : IRequest<Result>;
+    public record RemoveItemCommand(string BasketId, int ProductId, int Quantity) : IRequest<Result>;
 
     public class RemoveItemCommandHandler : IRequestHandler<RemoveItemCommand, Result>
     {
@@ -28,6 +28,7 @@ namespace WinterStore.Application.Featuers.Basket.Commands
             {
                 return Result.Fail(new NotFoundError($"Basket was not found."));
             }
+            basket.RemoveItem(request.ProductId, request.Quantity);
             var changes = await _unitOfWork.SevaChangesAsync(cancellationToken);
             if (changes > 0)
             {
