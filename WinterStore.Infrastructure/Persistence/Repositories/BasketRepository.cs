@@ -23,6 +23,15 @@ namespace WinterStore.Infrastructure.Persistence.Repositories
             return basket;
         }
 
+        public async Task DeleteBasket(string basketId, CancellationToken cancellationToken = default)
+        {
+            var basket= await _db.Baskets.AsNoTracking().FirstOrDefaultAsync(b => b.BasketId == basketId,cancellationToken);
+            if (basket != null)
+            {
+                _db.Baskets.Remove(basket);
+            }
+        }
+
         public async Task<Basket?> GetBasketWithItemsAndProduct(string basketId, CancellationToken cancellationToken = default)
         {
             return await _db.Baskets.Include(b => b.Items).ThenInclude(i => i.Product).FirstOrDefaultAsync(b => b.BasketId == basketId , cancellationToken);

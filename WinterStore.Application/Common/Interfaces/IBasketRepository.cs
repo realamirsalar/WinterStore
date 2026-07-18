@@ -9,6 +9,7 @@ namespace WinterStore.Application.Common.Interfaces
     {
         Task<Basket?> GetBasketWithItemsAndProduct(string basketId, CancellationToken cancellationToken = default);
         Task<Basket> CreateBasketAsync(Basket basket,CancellationToken cancellationToken = default);
+        Task DeleteBasket(string basketId, CancellationToken cancellationToken = default);
     }
 
 }
