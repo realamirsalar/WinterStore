@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Text;
 using WinterStore.Domain.Entities;
 
@@ -11,7 +12,10 @@ namespace WinterStore.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<BasketItem> builder)
         {
-            builder.HasOne(x => x.Product).WithOne().HasForeignKey<BasketItem>(x => x.ProductId);
+            builder
+                .HasOne(bi => bi.Product)
+                .WithMany()
+                .HasForeignKey(bi => bi.ProductId);
         }
     }
 }

@@ -59,8 +59,7 @@ namespace WinterStore.Infrastructure.Migrations
 
                     b.HasIndex("BasketId");
 
-                    b.HasIndex("ProductId")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
                     b.ToTable("BasketItems");
                 });
@@ -313,8 +312,8 @@ namespace WinterStore.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("WinterStore.Domain.Entities.Product", "Product")
-                        .WithOne()
-                        .HasForeignKey("WinterStore.Domain.Entities.BasketItem", "ProductId")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

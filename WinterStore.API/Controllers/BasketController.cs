@@ -24,9 +24,9 @@ namespace WinterStore.API.Controllers
             return HandleResult(result);
         }
         [HttpPost]
-        public async Task<IActionResult> AddItemToBasket([FromQuery] int productId, [FromQuery] int quntity)
+        public async Task<IActionResult> AddItemToBasket([FromQuery] int productId, [FromQuery] int quantity)
         {
-            var result = await _madiator.Send(new AddItemToBasketCommand(Request.Cookies[SD.BasketIdInCookie],productId , quntity));
+            var result = await _madiator.Send(new AddItemToBasketCommand(Request.Cookies[SD.BasketIdInCookie],productId , quantity));
 
             if (result.IsSuccess)
             {
@@ -36,10 +36,9 @@ namespace WinterStore.API.Controllers
                     Expires = DateTime.UtcNow.AddDays(30)
                 };
                 Response.Cookies.Append(SD.BasketIdInCookie, result.Value.BasketId, cookieOptions);
-                return CreatedAtAction(nameof(GetBasket), result.Value);
             }
 
-            return HandleFailure(result);
+            return HandleResult(result);
         }
     }
 }

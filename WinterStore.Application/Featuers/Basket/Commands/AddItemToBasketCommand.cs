@@ -1,31 +1,35 @@
-﻿using FluentResults;
+﻿using AutoMapper;
+using FluentResults;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using WinterStore.Application.Common.Errors;
 using WinterStore.Application.Common.Interfaces;
+using WinterStore.Application.Featuers.Basket.Queries;
 
 namespace WinterStore.Application.Featuers.Basket.Commands
 {
-    public record AddItemToBasketCommand(string? BasketId , int ProductId , int Quantity ) : IRequest<Result<WinterStore.Domain.Entities.Basket>>
+    public record AddItemToBasketCommand(string? BasketId , int ProductId , int Quantity ) : IRequest<Result<BasketReaponse>>
     {
 
     }
-    public class AddItemToBasketCommandHandler : IRequestHandler<AddItemToBasketCommand, Result<WinterStore.Domain.Entities.Basket>>
+    public class AddItemToBasketCommandHandler : IRequestHandler<AddItemToBasketCommand, Result<BasketReaponse>>
     {
         private readonly IBasketRepository _basketRepository;
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public AddItemToBasketCommandHandler(IBasketRepository basketRepository, IUnitOfWork unitOfWork, IProductRepository productRepository)
+        public AddItemToBasketCommandHandler(IBasketRepository basketRepository, IUnitOfWork unitOfWork, IProductRepository productRepository, IMapper mapper)
         {
             _basketRepository = basketRepository;
             _unitOfWork = unitOfWork;
             _productRepository = productRepository;
+            _mapper = mapper;
         }
 
-        public async Task<Result<WinterStore.Domain.Entities.Basket>> Handle(AddItemToBasketCommand request, CancellationToken cancellationToken)
+        public async Task<Result<BasketReaponse>> Handle(AddItemToBasketCommand request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetProductByIdAsync(request.ProductId, cancellationToken);
             if (product == null)
@@ -43,7 +47,6 @@ namespace WinterStore.Application.Featuers.Basket.Commands
 
                 basket = new Domain.Entities.Basket(newBasketId);
 
-                // فقط به EF معرفی می‌شود، دیتابیس هنوز درگیر نیست
                 await _basketRepository.CreateBasketAsync(basket, cancellationToken);
             }
             basket.AddItem(product.Id, request.Quantity);
@@ -53,8 +56,8 @@ namespace WinterStore.Application.Featuers.Basket.Commands
             {
                 return Result.Fail("Add basket operation failed during database save.");
             }
-
-            return Result.Ok(basket);
+            var basketResponse = _mapper.Map<BasketReaponse>(basket);
+            return Result.Ok(basketResponse);
         }
     }
 }
